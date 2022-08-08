@@ -1,0 +1,4 @@
+venv
+.idea
+db.sqllite3
+*.pyc
