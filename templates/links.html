@@ -1,13 +1,17 @@
 <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <a class="nav-link" href="{% url 'add_person' %}">Dodaj Osobe</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <a class="nav-link" href="{% url 'add_movie' %}">Dodaj film</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href="{% url 'add_category' %}">Dodaj Kategorie</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'movie_list' %}">Filmy</a>
+        </li>
+
     </ul>
 </div>

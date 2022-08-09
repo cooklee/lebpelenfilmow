@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table>
+    <tr>
+        <th>Lp</th>
+        <th>Title</th>
+        <th>Year</th>
+        <th>director</th>
+        <th>screen writer</th>
+        <th>category</th>
+    </tr>
+    {% for film in object_list %}
+        <tr class="{% cycle 'bg-primary' 'bg-light' %}">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ film.title }}</td>
+        <td>{{ film.year }}</td>
+        <td>{{ film.director }}</td>
+        <td>{{ film.screenwriter }}</td>
+        <td>{{ film.category }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+
+
+{% endblock %}

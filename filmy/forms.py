@@ -17,8 +17,7 @@ from filmy.models import Person, Film
 #         raise ValidationError("Tego pana nie obsługujemy")
 
 class AddPersonForm(forms.Form):
-    first_name = forms.CharField(max_length=128,
-                                 widget=forms.PasswordInput(attrs={'class': 'form-input b1'}))
+    first_name = forms.CharField(max_length=128)
     last_name = forms.CharField(max_length=128)
 
     def clean(self):
@@ -29,7 +28,7 @@ class AddPersonForm(forms.Form):
 
 
 class AddMovieForm(forms.ModelForm):
-    dupa = forms.CharField(max_length=1234)
+
     class Meta:
         model = Film
-        fields = ['year','title']
+        fields = '__all__'
