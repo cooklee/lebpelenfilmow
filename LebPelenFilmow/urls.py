@@ -22,5 +22,6 @@ from filmy import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='base.html'), name='index'),
-    path('add_person/', views.AddPersonView.as_view(), name='add_person')
+    path('add_person/', views.AddPersonView.as_view(), name='add_person'),
+    path('add_movie/', views.AddMovieView.as_view(), name='add_movie'),
 ]

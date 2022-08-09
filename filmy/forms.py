@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from filmy.models import Person
+from filmy.models import Person, Film
 
 
 # def check_if_exist(value):
@@ -26,3 +26,10 @@ class AddPersonForm(forms.Form):
         if data['first_name'] == 'Sławek' and data['last_name'] == 'Bo':
             raise ValidationError("no poprostu .... NIE")
         return data
+
+
+class AddMovieForm(forms.ModelForm):
+    dupa = forms.CharField(max_length=1234)
+    class Meta:
+        model = Film
+        fields = ['year','title']
