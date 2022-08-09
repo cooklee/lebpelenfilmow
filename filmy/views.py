@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, UpdateView
 
 from filmy.forms import AddPersonForm, AddMovieForm
 from filmy.models import Person, Film, Category
@@ -53,7 +53,25 @@ class AddCategoryView(CreateView):
 
     # def get_form_class(self):
     # def get_form(self, form_class=None):
+    #     super().get_form()
+    # def form_valid(self, form):
+    #     super().form_valid()
+    # def form_invalid(self, form):
+    #def get_success_url(self):
+    #def get_context_data(self, **kwargs):
+    #def get_object(self, queryset=None):
 
 class MovieListView(ListView):
     model = Film
     template_name = 'Film_list_view.html'
+
+
+class MovieUpdateView(UpdateView):
+    model = Film
+    template_name = 'add_object.html'
+    fields = '__all__'
+    #def get_queryset(self):
+
+    def get_success_url(self):
+        super().get_success_url()
+        return reverse("update_movie", args=(self.object.id,))

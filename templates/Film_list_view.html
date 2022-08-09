@@ -10,13 +10,14 @@
         <th>category</th>
     </tr>
     {% for film in object_list %}
-        <tr class="{% cycle 'bg-primary' 'bg-light' %}">
+        <tr class="{% cycle 'bg-secondary' 'bg-light' %}">
         <td>{{ forloop.counter }}</td>
         <td>{{ film.title }}</td>
         <td>{{ film.year }}</td>
         <td>{{ film.director }}</td>
         <td>{{ film.screenwriter }}</td>
         <td>{{ film.category }}</td>
+        <td><a href="{{ film.get_absolute_url }}">zmien</a> </td>
     </tr>
     {% endfor %}
     </table>

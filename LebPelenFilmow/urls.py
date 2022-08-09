@@ -24,6 +24,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='base.html'), name='index'),
     path('add_person/', views.AddPersonView.as_view(), name='add_person'),
     path('add_movie/', views.AddMovieView.as_view(), name='add_movie'),
+    path('update_movie/<int:pk>/', views.MovieUpdateView.as_view(), name='update_movie'),
     path('add_category/', views.AddCategoryView.as_view(), name='add_category'),
     path('movie_list/', views.MovieListView.as_view(), name='movie_list'),
     path('login/', a_views.LoginView.as_view(), name='login'),

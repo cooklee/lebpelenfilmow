@@ -1,6 +1,9 @@
 from django.db import models
 
 # Create your models here.
+from django.urls import reverse
+
+
 class Person(models.Model):
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
@@ -32,3 +35,6 @@ class Film(models.Model):
 
     def __str__(self):
         return f"{self.title} {self.year}"
+
+    def get_absolute_url(self):
+        return reverse('update_movie', args=(self.id, ))
