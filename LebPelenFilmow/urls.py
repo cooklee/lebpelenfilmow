@@ -18,10 +18,13 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from filmy import views
-
+from accounts import views as a_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='base.html'), name='index'),
     path('add_person/', views.AddPersonView.as_view(), name='add_person'),
     path('add_movie/', views.AddMovieView.as_view(), name='add_movie'),
+    path('login/', a_views.LoginView.as_view(), name='login'),
+    path('logout/', a_views.LogoutView.as_view(), name='logout'),
+    path('create_user/', a_views.RegisterView.as_view(), name='add_user')
 ]
