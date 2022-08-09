@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.urls import reverse
 from django.views import View
 
 from accounts.forms import LoginForm, CreateUserForm
@@ -22,7 +23,8 @@ class LoginView(View):
                                 password=password)
             if user is not None:
                 login(request, user)
-                return redirect('index')
+                url = request.GET.get('next', reverse('index'))
+                return redirect(url)
         return render(request, 'accounts/login.html', {'form': LoginForm()})
 
 

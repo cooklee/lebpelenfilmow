@@ -1,5 +1,6 @@
+from random import randint
 
-
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -12,7 +13,10 @@ from filmy.forms import AddPersonForm, AddMovieForm
 from filmy.models import Person, Film, Category
 
 
-class AddPersonView(View):
+class AddPersonView(UserPassesTestMixin, View):
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
     def get(self, request):
         form = AddPersonForm()
@@ -31,7 +35,7 @@ class AddPersonView(View):
         return render(request, 'add_object.html', {'form': form})
 
 
-class AddMovieView(View):
+class AddMovieView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = AddMovieForm()
@@ -45,7 +49,7 @@ class AddMovieView(View):
         return render(request, 'add_object.html', {'form': form})
 
 
-class AddCategoryView(CreateView):
+class AddCategoryView(LoginRequiredMixin, CreateView):
     model = Category
     template_name = 'add_object.html'
     fields = '__all__'
@@ -66,7 +70,12 @@ class MovieListView(ListView):
     template_name = 'Film_list_view.html'
 
 
-class MovieUpdateView(UpdateView):
+
+
+
+class MovieUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = ['filmy.change_film']
+
     model = Film
     template_name = 'add_object.html'
     fields = '__all__'
