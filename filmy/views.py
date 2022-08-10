@@ -10,7 +10,7 @@ from django.views import View
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
 from filmy.forms import AddPersonForm, AddMovieForm, AddCommentForm
-from filmy.models import Person, Film, Category
+from filmy.models import Person, Film, Category, Comment
 
 
 class AddPersonView(UserPassesTestMixin, View):
@@ -71,6 +71,8 @@ class MovieListView(ListView):
     template_name = 'Film_list_view.html'
 
 
+
+
 class MovieUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = ['filmy.change_film']
 
@@ -108,3 +110,21 @@ class AddCommentView( View):
             comment.save()
             return redirect('detail_movie', pk_movie)
 
+
+class AddCommentGenericView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['text']
+
+    def get_success_url(self):
+        pk_movie = self.kwargs['pk_movie']
+        return reverse('detail_movie', args=(pk_movie,))
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        pk_movie = self.kwargs['pk_movie']
+        movie = Film.objects.get(pk=pk_movie)
+        user = self.request.user
+        self.object.author = user
+        self.object.movie = movie
+        self.object.save()
+        return super(CreateView, self).form_valid(form)

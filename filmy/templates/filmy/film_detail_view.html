@@ -9,7 +9,7 @@
     </div>
     <div class="card">
         <p>
-            <form method="post" action="{% url 'add_comment' object.pk %}">
+            <form method="post" action="{% url 'add_comment_generic' object.pk %}">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit">
