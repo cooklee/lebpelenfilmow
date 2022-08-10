@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from filmy.models import Person, Film
+from filmy.models import Person, Film, Comment
 
 
 # def check_if_exist(value):
@@ -32,3 +32,14 @@ class AddMovieForm(forms.ModelForm):
     class Meta:
         model = Film
         fields = '__all__'
+
+
+class AddCommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+
+
+

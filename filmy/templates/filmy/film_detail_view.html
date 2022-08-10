@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="card">
+        <p>{{ object.title }}</p>
+        <p> {{ object.year }}</p>
+        <p> {{ object.director }}</p>
+        <p> {{ object.screenwriter }}</p>
+        <p> {{ object.category }}</p>
+    </div>
+    <div class="card">
+        <p>
+            <form method="post" action="{% url 'add_comment' object.pk %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit">
+            </form>
+        </p>
+    </div>
+    {% for comment in object.comment_set.all %}
+    <div class="card">
+        <div class="card-header"><h2>{{ comment.author }}</h2><small>{{ comment.date }}</small></div>
+        <div class="card-body">
+            {{ comment.text }}
+            </div>
+    </div>
+    {% endfor %}
+
+{% endblock %}

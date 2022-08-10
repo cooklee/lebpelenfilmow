@@ -7,9 +7,9 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, DetailView
 
-from filmy.forms import AddPersonForm, AddMovieForm
+from filmy.forms import AddPersonForm, AddMovieForm, AddCommentForm
 from filmy.models import Person, Film, Category
 
 
@@ -20,7 +20,7 @@ class AddPersonView(UserPassesTestMixin, View):
 
     def get(self, request):
         form = AddPersonForm()
-        return render(request, 'add_object.html', {'form':form})
+        return render(request, 'add_object.html', {'form': form})
 
     def post(self, request):
         form = AddPersonForm(request.POST)
@@ -39,7 +39,7 @@ class AddMovieView(LoginRequiredMixin, View):
 
     def get(self, request):
         form = AddMovieForm()
-        return render(request, 'add_object.html', {'form':form})
+        return render(request, 'add_object.html', {'form': form})
 
     def post(self, request):
         form = AddMovieForm(request.POST)
@@ -61,16 +61,14 @@ class AddCategoryView(LoginRequiredMixin, CreateView):
     # def form_valid(self, form):
     #     super().form_valid()
     # def form_invalid(self, form):
-    #def get_success_url(self):
-    #def get_context_data(self, **kwargs):
-    #def get_object(self, queryset=None):
+    # def get_success_url(self):
+    # def get_context_data(self, **kwargs):
+    # def get_object(self, queryset=None):
+
 
 class MovieListView(ListView):
     model = Film
     template_name = 'Film_list_view.html'
-
-
-
 
 
 class MovieUpdateView(PermissionRequiredMixin, UpdateView):
@@ -79,8 +77,34 @@ class MovieUpdateView(PermissionRequiredMixin, UpdateView):
     model = Film
     template_name = 'add_object.html'
     fields = '__all__'
-    #def get_queryset(self):
+
+    # def get_queryset(self):
 
     def get_success_url(self):
         super().get_success_url()
         return reverse("update_movie", args=(self.object.id,))
+
+
+class MovieDetailView(DetailView):
+    model = Film
+    template_name = 'filmy/film_detail_view.html'
+
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        form = AddCommentForm()
+        data.update({'form': form, 'ptaszek': 'sikorka'})
+        return data
+
+
+class AddCommentView( View):
+    def post(self, request, pk_movie):
+        form = AddCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            movie = Film.objects.get(pk=pk_movie)
+            user = request.user
+            comment.author = user
+            comment.movie = movie
+            comment.save()
+            return redirect('detail_movie', pk_movie)
+
