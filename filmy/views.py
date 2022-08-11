@@ -13,7 +13,7 @@ from filmy.forms import AddPersonForm, AddMovieForm, AddCommentForm
 from filmy.models import Person, Film, Category, Comment
 
 
-class AddPersonView(UserPassesTestMixin, View):
+class AddPersonView(View):
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -66,11 +66,10 @@ class AddCategoryView(LoginRequiredMixin, CreateView):
     # def get_object(self, queryset=None):
 
 
-class MovieListView(ListView):
+class MovieListView(PermissionRequiredMixin, ListView):
+    permission_required = ['filmy.view_film']
     model = Film
     template_name = 'Film_list_view.html'
-
-
 
 
 class MovieUpdateView(PermissionRequiredMixin, UpdateView):
@@ -98,7 +97,7 @@ class MovieDetailView(DetailView):
         return data
 
 
-class AddCommentView( View):
+class AddCommentView(View):
     def post(self, request, pk_movie):
         form = AddCommentForm(request.POST)
         if form.is_valid():

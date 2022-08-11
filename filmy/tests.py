@@ -2,6 +2,11 @@ from datetime import datetime
 
 import pytest
 
+def al_ma_kota(a):
+    if a < 10:
+        raise ValueError('A jest mniejsze od 10')
+    return a
+
 
 def analyze_pesel(pesel):
     weights = [1, 3, 7, 9,
@@ -69,3 +74,8 @@ def test_ap_gender(pesel, gender):
                          )
 def test_ap_invalid(pesel, date):
     assert  analyze_pesel(pesel)['birth_date'] == date
+
+
+def test_check_if_func_rises_error():
+    with pytest.raises(TypeError):
+        al_ma_kota(8)
