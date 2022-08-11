@@ -16,16 +16,11 @@ from filmy.models import Person, Film, Comment
 #     if value == 'Gosia':
 #         raise ValidationError("Tego pana nie obsługujemy")
 
-class AddPersonForm(forms.Form):
-    first_name = forms.CharField(max_length=128)
-    last_name = forms.CharField(max_length=128)
+class AddPersonForm(forms.ModelForm):
 
-    def clean(self):
-        data = super().clean()
-        if data['first_name'] == 'Sławek' and data['last_name'] == 'Bo':
-            raise ValidationError("no poprostu .... NIE")
-        return data
-
+    class Meta:
+        model = Person
+        fields = '__all__'
 
 class AddMovieForm(forms.ModelForm):
 

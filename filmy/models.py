@@ -8,6 +8,7 @@ from django.urls import reverse
 class Person(models.Model):
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
+    photo = models.ImageField(null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

@@ -23,14 +23,13 @@ class AddPersonView(View):
         return render(request, 'add_object.html', {'form': form})
 
     def post(self, request):
-        form = AddPersonForm(request.POST)
+        form = AddPersonForm(request.POST, request.FILES)
         if form.is_valid():
             # first_name = form.cleaned_data['first_name']
             # last_name = form.cleaned_data['last_name']
             # Person.objects.create(first_name=first_name,
             #                       last_name=last_name)
-            Person.objects.create(**form.cleaned_data)
-            form = AddPersonForm()
+            form.save()
 
         return render(request, 'add_object.html', {'form': form})
 
